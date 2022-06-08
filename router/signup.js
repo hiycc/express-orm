@@ -1,9 +1,10 @@
 // signup.js - 注册模块
 const express = require('express')
 const router = express.Router()
+const userController = require('../app/controllers/users.controller')
 
 router.post('/',(req, res) => {
-  res.send('注册请求')
+  userController.create(req,res)
 })
 
 router.get('/', (req, res) => {
