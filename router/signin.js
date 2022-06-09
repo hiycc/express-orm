@@ -1,14 +1,11 @@
-// signup.js - 注册模块
+// signin.js - 登录模块
 const express = require('express')
 const router = express.Router()
 const userController = require('../app/controllers/users.controller')
 
-router.post('/',(req, res) => {
-  userController.signup(req,res)
-})
 
-router.get('/', (req, res) => {
-  res.send('注册模块get')
+router.post('/',(req, res) => {
+  userController.signin(req,res)
 })
 
 module.exports = router;

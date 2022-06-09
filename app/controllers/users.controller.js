@@ -17,16 +17,8 @@ var getIp = (req) => {
   return ip;
 }
 
-// 创建并保存User
-exports.create = (req, res) => {
-  console.log(req.headers)
-  //验证请求
-  // if (req.body.email) {
-  //   Users.
-  //   res.status(400).send({
-  //     message: "Content can not be empty!"
-  //   })
-  //   return 
+// 注册逻辑
+exports.signup = (req, res) => {
   Users.findOrCreate({
     where: { email: req.body.email },
     defaults: {
@@ -50,4 +42,28 @@ exports.create = (req, res) => {
       })
     }
   })
+}
+
+//登录逻辑
+exports.signin = (req, res) => {
+  Users.findOne({
+    where: {
+      email: req.body.email
+    },
+    raw: true
+  }).then((results) => {
+    if (results.password === req.body.password) {
+      const userRes = {
+        username: results.username,
+        id: results.id
+      }
+      res.status(200).send(userRes)
+    } else {
+      res.status(400).send({
+        message: '密码错误'
+      })
+    }
+  })
+
+  
 }
