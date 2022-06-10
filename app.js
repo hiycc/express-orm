@@ -23,6 +23,8 @@ const signup = require('./router/signup')
 app.use('/signup', signup)
 const signin = require('./router/signin')
 app.use('/signin', signin)
+const columns = require('./router/columns')
+app.use('/columns', columns)
 
 app.get('/', (req, res) => {
 })

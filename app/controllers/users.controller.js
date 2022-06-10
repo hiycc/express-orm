@@ -64,6 +64,4 @@ exports.signin = (req, res) => {
       })
     }
   })
-
-  
 }

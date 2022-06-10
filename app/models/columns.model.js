@@ -2,6 +2,11 @@ module.exports = (sequelize, Sequelize) => {
   const Columns = sequelize.define('columns',{
     columnId: {
       type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    userId: {
+      type: Sequelize.INTEGER,
       allowNull: false
     },
     title: {
