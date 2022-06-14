@@ -25,6 +25,8 @@ const signin = require('./router/signin')
 app.use('/signin', signin)
 const columns = require('./router/columns')
 app.use('/columns', columns)
+const posts = require('./router/posts')
+app.use('/posts', posts)
 
 app.get('/', (req, res) => {
 })
