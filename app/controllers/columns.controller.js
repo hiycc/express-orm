@@ -2,11 +2,13 @@ const db = require('../models')
 const Columns = db.columns
 const Op = db.Sequelize.Op
 
+const postsController = require('./posts.controller')
+
 exports.getColumnsByUserID = (req, res) => {
   // findAll查询所有符合条件的column
   Columns.findAll({
     where: {
-      userId: req.params.id
+      userId: req.data.id
     },
     raw: true
   }).then((results) => {
@@ -37,7 +39,7 @@ exports.getColumnsByUserID = (req, res) => {
 
 exports.create = (req, res) => {
   Columns.create({
-    userId: req.body.userId,
+    userId: req.data.id,
     title: req.body.title,
     description: req.body.description,
     avatar: req.body.avatar
@@ -58,6 +60,7 @@ exports.create = (req, res) => {
 }
 
 exports.getColumnByID = (req, res) => {
+  
   Columns.findOne({
     where: {
       columnId: req.params.columnId
@@ -83,6 +86,7 @@ exports.getColumnByID = (req, res) => {
 }
 
 exports.delete = (req, res) => {
+  postsController.deleteByColumnId(req.params.columnId)
   Columns.destroy({
     where: {
       columnId: req.params.columnId

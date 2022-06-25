@@ -8,4 +8,8 @@ router.post('/',(req, res) => {
   usersController.signin(req,res)
 })
 
+router.post('/token',(req, res) => {
+  usersController.signinToken(req,res)
+})
+
 module.exports = router;

@@ -4,7 +4,7 @@ const Op = db.Sequelize.Op
 
 exports.create = (req, res) =>{
   Posts.create({
-    userId: req.body.userId,
+    userId: req.data.id,
     title: req.body.title,
     content: req.body.content,
     columnId: req.body.columnId
@@ -55,5 +55,44 @@ exports.getPostsByColumnId = (req, res) => {
         msg: 'got null of result!'
       })
     }
+  })
+}
+
+exports.getAllPosts = (req, res) => {
+  db.sequelize.query('select posts.postId,userId,title,content,posts.createdAt,users.username from posts, users where posts.userId = users.id order by createdAt DESC;').then(([results, metadata]) => {
+  /** 
+   * 返回格式 [{ postId, userId, title, content, createdAt, username }]
+  */
+    if(results.length !== 0) {
+      res.status(200).send({
+        data: results,
+        user: req.data
+      })
+    }
+  })
+}
+
+exports.delete = (req, res) => {
+  Posts.destroy({
+    where: {
+      postId: req.params.postId
+    },
+    raw: true
+  }).then((results) => {
+    if(results) {
+      console.log(results)
+      res.status(200).send({
+        msg: 'delete successfully!'
+      })
+    }
+   })
+}
+
+exports.deleteByColumnId = (columnId) => {
+  Posts.destroy({
+    where: {
+      columnId: columnId
+    },
+    raw: true
   })
 }

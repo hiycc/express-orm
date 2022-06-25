@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const db = require('./app/models')
+var {  expressjwt: jwt } = require('express-jwt')
 
 const app = express()
 const PORT = 3000
@@ -17,7 +18,37 @@ app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded( { extended: true }))
-app.use(cookieParser('$ is the king'))
+// app.use(cookieParser('$ is the king'))
+
+// 
+const { vertifyToken } = require('./token_vertify')
+app.use((req, res, next) => {
+  const token = req.headers['authorization']
+  if (token === undefined) {
+    return next()
+  } else {
+    vertifyToken(token).then((data) => {
+      req.data = data
+      // if(req.data) {
+      //   console.log('token 1')
+      // } else {
+      //   console.log('token 2')
+      // }
+      return next()
+    }).catch((error) => {
+      // while got invalid token
+
+      return next()
+    })
+  }
+})
+app.use(jwt({
+  secret: '$ is the king',
+  algorithms: ['HS256'],
+  credentialsRequired: false
+}).unless({
+  path: ['/signup', '/signin', '/posts']
+}))
 
 const signup = require('./router/signup')
 app.use('/signup', signup)
