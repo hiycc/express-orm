@@ -21,6 +21,7 @@ exports.signup = (req, res) => {
       password: req.body.password
     }
   }).then((results) => {
+    console.log(results)
     if (results[1]) {
       const ip = getIp(req)
       const uid = results[0].id
@@ -62,35 +63,49 @@ exports.signin = (req, res) => {
     },
     raw: true
   }).then((results) => {
-    if (results.password === req.body.password) {
-      const ip = getIp(req)
-      const uid = results.id
-      const uname = results.username
-      // let payload = { uid: results.id, ip: ip, time: new Date().getTime()}
-      setToken(uid, uname, ip).then((token) => {
-        const userRes = {
-          username: results.username,
-          id: results.id,
-          token: token
+    if (results) {
+      if (results.password === req.body.password) {
+        const ip = getIp(req)
+        const uid = results.id
+        const uname = results.username
+        setToken(uid, uname, ip).then((token) => {
+          res.status(200).send({
+            token: token,
+            username: results.username,
+            id: results.id,
+            message: "登录成功"
+          })
+        }).catch((err) => {
+          res.status(500).send({
+            message: "登录失败"
+          })
         }
-        res.status(200).send(userRes)
-      })
-      // const token = jwt.sign(payload, secret, (err, token) => {
-      //   if(err) {
-      //     return console.log('生成token失败！')
-      //   }
-      //   console.log('用户信息存储token：' + token)
-      //   const userRes = {
-      //     username: results.username,
-      //     id: results.id,
-      //     token: token
-      //   }
-      //   res.status(200).send(userRes)
-      // })
+        )
+      } else {
+        res.status(400).send({
+          message: "密码错误"
+        })
+      }
     } else {
       res.status(400).send({
-        message: '密码错误'
+        message: "邮箱不存在"
       })
     }
+  })
+}
+
+exports.getUser = (req, res) => {
+  Users.findOne({
+    where: {
+      id: req.params.id
+    },
+    raw: true
+  }).then((results) => {
+    const userRes = {
+      username: results.username,
+      id: results.id,
+      email: results.email
+    }
+    res.status(200).send(userRes)
   })
 }

@@ -12,4 +12,4 @@ app.use('/columns', columns)
 const posts = require('./posts')
 app.use('/posts', posts)
 
-module.exports = app.Router()
+module.exports = app.router

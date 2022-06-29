@@ -6,9 +6,9 @@ const userController = require('../app/controllers/users.controller')
 router.post('/',(req, res) => {
   userController.signup(req,res)
 })
-
-router.get('/', (req, res) => {
-  res.send('注册模块get')
-})
+// 120.24.186.236:9999/signup
+// router.get('/', (req, res) => {
+//   res.send('注册模块get')
+// })
 
 module.exports = router;

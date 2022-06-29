@@ -1,3 +1,4 @@
+//  columns.model.js  -Columns Model Defination
 module.exports = (sequelize, Sequelize) => {
   const Columns = sequelize.define('columns',{
     columnId: {

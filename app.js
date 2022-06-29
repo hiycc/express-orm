@@ -1,9 +1,12 @@
-// 引进express框架
+// 引进express框架 后端框架
 const express = require('express')
+// 转格式
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+//跨域
 const cors = require('cors')
 const db = require('./app/models')
+// const router_index = require('./router/index')
 var {  expressjwt: jwt } = require('express-jwt')
 
 const app = express()
@@ -20,20 +23,17 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded( { extended: true }))
 // app.use(cookieParser('$ is the king'))
 
-// 
+//  the middleware of jwt authentication
 const { vertifyToken } = require('./token_vertify')
 app.use((req, res, next) => {
+  //  get token from request
   const token = req.headers['authorization']
   if (token === undefined) {
     return next()
   } else {
+    //  vertify token
     vertifyToken(token).then((data) => {
       req.data = data
-      // if(req.data) {
-      //   console.log('token 1')
-      // } else {
-      //   console.log('token 2')
-      // }
       return next()
     }).catch((error) => {
       // while got invalid token
@@ -42,6 +42,7 @@ app.use((req, res, next) => {
     })
   }
 })
+// 中间件
 app.use(jwt({
   secret: '$ is the king',
   algorithms: ['HS256'],
@@ -58,6 +59,8 @@ const columns = require('./router/columns')
 app.use('/columns', columns)
 const posts = require('./router/posts')
 app.use('/posts', posts)
+const users = require('./router/users')
+app.use('/users', users)
 
 app.get('/', (req, res) => {
 })

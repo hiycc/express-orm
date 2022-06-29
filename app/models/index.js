@@ -1,8 +1,10 @@
+//  index.js  -connect to mysql by sequelize
 const dbConfig = require('../config/db.config')
 
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
+  // 
   dialect: dbConfig.dialect,
   operatorsAliases: false,
 
@@ -22,5 +24,6 @@ db.sequelize = sequelize
 db.users = require('./users.model')(sequelize, Sequelize)
 db.columns = require('./columns.model')(sequelize, Sequelize)
 db.posts = require('./posts.model')(sequelize, Sequelize)
+db.files = require('./files.model')(sequelize, Sequelize)
 
 module.exports = db;
