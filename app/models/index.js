@@ -24,6 +24,6 @@ db.sequelize = sequelize
 db.users = require('./users.model')(sequelize, Sequelize)
 db.columns = require('./columns.model')(sequelize, Sequelize)
 db.posts = require('./posts.model')(sequelize, Sequelize)
-db.files = require('./files.model')(sequelize, Sequelize)
+// db.files = require('./files.model')(sequelize, Sequelize)
 
 module.exports = db;

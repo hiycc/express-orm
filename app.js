@@ -61,6 +61,9 @@ const posts = require('./router/posts')
 app.use('/posts', posts)
 const users = require('./router/users')
 app.use('/users', users)
+const files = require('./router/files')
+app.use('/files',files)
+
 
 app.get('/', (req, res) => {
 })
