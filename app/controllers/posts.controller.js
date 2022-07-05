@@ -3,6 +3,7 @@ const Posts = db.posts
 const Op = db.Sequelize.Op
 
 exports.create = (req, res) =>{
+  console.log(req.body)
   Posts.create({
     userId: req.data.id,
     title: req.body.title,
@@ -11,6 +12,7 @@ exports.create = (req, res) =>{
   }).then((resultEntity) => {
     // 201状态码表示创建成功
     const dataObj = resultEntity.get({plain: true})
+    console.log(dataObj)
     res.status(201).send({
       msg: 'create post successfully!',
       data: {
